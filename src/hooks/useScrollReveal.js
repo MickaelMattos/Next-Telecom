@@ -12,17 +12,17 @@ export function useScrollReveal() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(e => {
+        entries.forEach((e) => {
           if (e.isIntersecting) {
             e.target.classList.add('visible')
             observer.unobserve(e.target)
           }
         })
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' },
     )
 
-    els.forEach(el => observer.observe(el))
+    els.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [])
 }
@@ -44,7 +44,7 @@ export function useRevealRef() {
           observer.disconnect()
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.12 },
     )
 
     observer.observe(el)
