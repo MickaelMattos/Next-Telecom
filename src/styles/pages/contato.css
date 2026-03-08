@@ -1,80 +1,132 @@
-/* ═══════════════════════════════════════════
-   CONTATO PAGE — CSS
-   ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   CONTATO.CSS
+   ═══════════════════════════════════════════════════ */
 
-/* ── ANIMAÇÃO DE ENTRADA ────────────────── */
-.ct-page-wrapper {
-  animation: ctPageIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes ctPageIn {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0);    }
-}
-
-/* ── HERO ───────────────────────────────── */
-.ct-hero {
-  position: relative;
-  min-height: 52vh;
-  display: flex;
-  align-items: flex-end;
-  padding-bottom: 4rem;
+.ct-page {
   padding-top: 68px;
+}
+
+/* ════════════════════
+   SLIDER
+   ════════════════════ */
+.ct-hero-slider {
+  background: #000;
+}
+
+.ct-slider {
+  position: relative;
+  width: 100%;
   overflow: hidden;
+  max-height: 500px;
+  background: #111;
 }
-
-.ct-hero__photo {
-  position: absolute; inset: 0;
-  background-image: url('/images/hero-familia.jpg');
-  background-size: cover;
-  background-position: center 25%;
-  z-index: 0;
+.ct-slider__slide {
+  display: none;
 }
-.ct-hero__overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10,10,10,0.5) 0%,
-    rgba(10,10,10,0.3) 25%,
-    rgba(10,10,10,0.68) 65%,
-    var(--bg) 100%
-  );
-  z-index: 1;
+.ct-slider__slide--on {
+  display: block;
+  animation: ctFade 0.55s ease;
 }
-.ct-hero__grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 52px 52px;
-  z-index: 2; pointer-events: none;
+@keyframes ctFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
-.ct-hero__content {
-  position: relative; z-index: 3;
-  padding-top: 3rem;
+.ct-slider__slide img {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+  display: block;
 }
-.ct-hero__title {
-  font-size: clamp(3rem, 8vw, 6rem);
-  font-weight: 900;
+.ct-slider__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.88);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #141414;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  transition:
+    background 0.2s,
+    color 0.2s;
+  z-index: 3;
+}
+.ct-slider__btn:hover {
+  background: var(--red);
   color: #fff;
-  line-height: 0.92;
-  letter-spacing: -0.035em;
-  margin-bottom: 1.1rem;
-  text-shadow: 0 4px 24px rgba(0,0,0,0.45);
 }
-.ct-hero__title span {
-  color: var(--red);
-  text-shadow: 0 0 50px rgba(165,14,34,0.6), 0 4px 24px rgba(0,0,0,0.4);
+.ct-slider__btn--l {
+  left: 18px;
 }
-.ct-hero__sub {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.8);
-  line-height: 1.7;
-  max-width: 380px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+.ct-slider__btn--r {
+  right: 18px;
+}
+.ct-slider__dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 7px;
+  z-index: 3;
+}
+.ct-slider__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.ct-slider__dot--on {
+  background: var(--red);
+  width: 26px;
+  border-radius: 4px;
 }
 
-/* ── CANAIS ─────────────────────────────── */
-.ct-section-canais { background: var(--bg); padding-top: 0; }
+/* ════════════════════
+   LABEL DE SEÇÃO
+   ════════════════════ */
+.ct-section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ct-section-label::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--red);
+  border-radius: 2px;
+}
+
+/* ════════════════════
+   CARDS DE CANAL
+   ════════════════════ */
+.ct-section-canais {
+  background: var(--bg);
+}
 
 .ct-canais-grid {
   display: grid;
@@ -82,158 +134,231 @@
   gap: 1rem;
 }
 
-.ct-canal-card {
+/* Card — layout horizontal limpo */
+.ct-canal {
   display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  padding: 1.6rem 1.25rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
   background: var(--card);
-  border: 1px solid var(--cor-bd);
-  border-radius: var(--r-xl);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
   text-decoration: none;
   color: var(--text);
   position: relative;
   overflow: hidden;
-
-  /* ★ transição unificada: cor + escala + sombra */
   transition:
-    transform     0.28s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow    0.28s cubic-bezier(0.22, 1, 0.36, 1),
-    background    0.22s ease,
-    border-color  0.22s ease;
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.22s,
+    box-shadow 0.28s;
 }
 
-/* Barra de cor no topo */
-.ct-canal-card::before {
+/* Linha de acento no topo — aparece no hover */
+.ct-canal::before {
   content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--cor);
-  opacity: 0;
-  transition: opacity 0.22s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
-/* ★ HOVER: cresce + muda cor de fundo + sombra colorida */
-.ct-canal-card:hover {
-  transform: scale(1.045) translateY(-4px);
-  background: var(--cor-bg);
-  border-color: var(--cor-bd);
+.ct-canal:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  transform: translateY(-4px);
   box-shadow:
-    0 12px 36px var(--shadow),
-    0 0 0 1px var(--cor-bd),
-    0 6px 20px var(--cor-bg);
-  z-index: 2;
+    0 12px 32px rgba(0, 0, 0, 0.08),
+    0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent);
 }
-.ct-canal-card:hover::before { opacity: 1; }
-
-/* Ícone */
-.ct-canal-card__icon-wrap {
-  width: 50px; height: 50px;
-  background: var(--cor-bg);
-  border: 1px solid var(--cor-bd);
-  border-radius: var(--r-lg);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--cor);
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-  overflow: hidden;
-}
-.ct-canal-card:hover .ct-canal-card__icon-wrap {
-  transform: scale(1.12) rotate(-4deg);
+.ct-canal:hover::before {
+  transform: scaleX(1);
 }
 
-.ct-canal-icon-img {
-  width: 28px; height: 28px;
+/* Ícone — círculo neutro */
+.ct-canal__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ct-canal:hover .ct-canal__icon {
+  transform: scale(1.1);
+}
+.ct-canal__icon img {
+  width: 26px;
+  height: 26px;
   object-fit: contain;
+  /* WhatsApp tem fundo preto: screen remove o fundo escuro */
   mix-blend-mode: screen;
 }
+[data-theme='dark'] .ct-canal__icon img {
+  mix-blend-mode: normal;
+}
 
-.ct-canal-card__tipo {
-  font-size: 0.62rem; font-weight: 900;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--cor);
+/* Corpo do canal */
+.ct-canal__body {
+  flex: 1;
+  min-width: 0;
 }
-.ct-canal-card__val {
-  font-size: 0.93rem; font-weight: 700;
-  color: var(--text); line-height: 1.3;
+.ct-canal__tipo {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent) 90%, var(--text));
+  margin-bottom: 2px;
 }
-.ct-canal-card__sub {
-  font-size: 0.75rem; color: var(--muted);
-  line-height: 1.4; flex: 1;
+.ct-canal__valor {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.ct-canal-card__btn {
-  font-size: 0.78rem; font-weight: 700;
-  color: var(--cor); margin-top: auto;
-  transition: letter-spacing 0.2s;
+.ct-canal__sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 2px;
+  line-height: 1.3;
 }
-.ct-canal-card:hover .ct-canal-card__btn { letter-spacing: 0.02em; }
 
-/* ── INFO GRID: endereço + horário lado a lado ── */
-.ct-section-info { padding-bottom: 2rem; }
+/* Seta */
+.ct-canal__arrow {
+  font-size: 1rem;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition:
+    transform 0.22s,
+    color 0.22s;
+}
+.ct-canal:hover .ct-canal__arrow {
+  transform: translateX(4px);
+  color: var(--accent);
+}
+
+/* ════════════════════
+   ENDEREÇO + HORÁRIOS
+   ════════════════════ */
+.ct-section-info {
+  background: var(--bg-2);
+}
 
 .ct-info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
+  align-items: start;
 }
 
-/* Card base compartilhado */
-.ct-address-card,
-.ct-horario-card {
+/* Card base */
+.ct-info-card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r-xl);
-  padding: 1.5rem;
-  transition: border-color var(--t-mid), box-shadow var(--t-mid);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1.75rem;
   height: 100%;
+  transition:
+    border-color 0.22s,
+    box-shadow 0.22s;
 }
-.ct-address-card:hover,
-.ct-horario-card:hover {
-  border-color: var(--border-h);
-  box-shadow: 0 6px 20px var(--shadow);
+.ct-info-card:hover {
+  border-color: rgba(165, 14, 34, 0.25);
+  box-shadow: 0 6px 24px var(--shadow);
+}
+.ct-info-card__title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--red);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
 }
 
-/* Título dos cards */
-.ct-card-title {
-  display: flex; align-items: center; gap: 7px;
-  font-size: 0.68rem; font-weight: 900;
-  color: var(--red); letter-spacing: 0.15em;
-  text-transform: uppercase; margin-bottom: 1.1rem;
+/* Endereço */
+.ct-addr-list {
+  display: flex;
+  flex-direction: column;
 }
-
-/* Linhas de endereço */
-.ct-address-lines { display: flex; flex-direction: column; }
-
-.ct-address-line {
+.ct-addr-row {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 72px 1fr;
   gap: 0.5rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--border);
-}
-.ct-address-line:last-child { border-bottom: none; padding-bottom: 0; }
-.ct-address-line__label {
-  font-size: 0.65rem; font-weight: 700;
-  color: var(--muted); text-transform: uppercase;
-  letter-spacing: 0.04em; padding-top: 2px;
-}
-.ct-address-line__val {
-  font-size: 0.86rem; color: var(--text);
-  font-weight: 600; line-height: 1.45;
-}
-
-/* Linhas de horário */
-.ct-horario-grid { display: flex; flex-direction: column; }
-.ct-horario-row {
-  display: flex; justify-content: space-between; align-items: center;
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--border);
 }
-.ct-horario-row:last-child { border-bottom: none; }
-.ct-horario-row__dia  { font-size: 0.85rem; color: var(--sub); }
-.ct-horario-row__hora { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+.ct-addr-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.ct-addr-row__label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-top: 2px;
+}
+.ct-addr-row__val {
+  font-size: 0.86rem;
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.45;
+}
 
-/* ── MAPA + FORMULÁRIO ──────────────────── */
-.ct-section-main { padding-top: 0; }
+/* Horários por setor */
+.ct-horarios {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.ct-horario-setor__nome {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 0.45rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(165, 14, 34, 0.15);
+}
+.ct-horario-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0;
+}
+.ct-horario-row__dia {
+  font-size: 0.83rem;
+  color: var(--sub);
+}
+.ct-horario-row__hora {
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ════════════════════
+   MAPA + FORMULÁRIO
+   ════════════════════ */
+.ct-section-main {
+  background: var(--bg);
+  padding-top: 0;
+}
 
 .ct-main-grid {
   display: grid;
@@ -244,73 +369,169 @@
 
 /* Mapa */
 .ct-map-wrap {
-  border-radius: var(--r-xl);
+  border-radius: 14px;
   overflow: hidden;
-  border: 1px solid var(--border);
-  transition: border-color var(--t-mid), box-shadow var(--t-mid);
-  height: 100%;
+  border: 1.5px solid var(--border);
+  transition:
+    border-color 0.22s,
+    box-shadow 0.22s;
   min-height: 480px;
+  height: 100%;
 }
 .ct-map-wrap:hover {
-  border-color: var(--border-h);
-  box-shadow: 0 6px 20px var(--shadow);
+  border-color: rgba(165, 14, 34, 0.25);
+  box-shadow: 0 6px 24px var(--shadow);
 }
 .ct-map-wrap iframe {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   min-height: 480px;
-  display: block; border: none;
+  display: block;
+  border: none;
   filter: grayscale(15%);
   transition: filter 0.3s;
 }
-.ct-map-wrap:hover iframe { filter: grayscale(0%); }
+.ct-map-wrap:hover iframe {
+  filter: grayscale(0%);
+}
 
 /* Formulário */
 .ct-form-card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r-xl);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
   padding: 2rem;
   position: sticky;
   top: 80px;
-  transition: border-color var(--t-mid);
+  transition: border-color 0.22s;
 }
-.ct-form-card:hover { border-color: var(--border-h); }
+.ct-form-card:hover {
+  border-color: rgba(165, 14, 34, 0.2);
+}
 
-.ct-form-card__header { margin-bottom: 1.5rem; }
-.ct-form-card__title  { font-size: 1.25rem; font-weight: 900; color: var(--text); letter-spacing: -0.01em; margin-bottom: 5px; }
-.ct-form-card__sub    { font-size: 0.81rem; color: var(--muted); line-height: 1.55; }
+.ct-form-card__header {
+  margin-bottom: 1.5rem;
+}
+.ct-form-card__title {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.ct-form-card__sub {
+  font-size: 0.81rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
 
 .ct-alert {
-  border-radius: var(--r-md); padding: 0.9rem 1.1rem;
-  margin-bottom: 1.25rem; font-size: 0.87rem; line-height: 1.5;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.87rem;
+  line-height: 1.5;
 }
-.ct-alert--ok  { background: rgba(39,174,96,0.08); border: 1px solid rgba(39,174,96,0.3);  color: #27ae60; }
-.ct-alert--err { background: rgba(165,14,34,0.07); border: 1px solid rgba(165,14,34,0.25); color: var(--red); }
-.ct-alert--err a { color: var(--red); font-weight: 700; }
+.ct-alert--ok {
+  background: rgba(39, 174, 96, 0.08);
+  border: 1px solid rgba(39, 174, 96, 0.3);
+  color: #27ae60;
+}
+.ct-alert--err {
+  background: rgba(165, 14, 34, 0.07);
+  border: 1px solid rgba(165, 14, 34, 0.25);
+  color: var(--red);
+}
+.ct-alert--err a {
+  color: var(--red);
+  font-weight: 700;
+}
 
-.ct-form       { display: flex; flex-direction: column; gap: 0; }
-.ct-form__row  { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.ct-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.ct-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
 
-.form-input--err { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(165,14,34,0.1) !important; }
-.ct-field-err    { display: block; font-size: 0.72rem; color: var(--red); margin-top: 4px; font-weight: 600; }
-.ct-char-count   { float: right; font-size: 0.68rem; color: var(--muted); font-weight: 400; }
-.ct-optional     { font-size: 0.7rem; color: var(--muted); font-weight: 400; margin-left: 4px; }
-.ct-submit-btn   { padding: 13px !important; font-size: 0.93rem !important; margin-top: 0.5rem; }
-.ct-form__lgpd   { font-size: 0.72rem; color: var(--muted); line-height: 1.6; text-align: center; margin-top: 1rem; }
+.form-input--err {
+  border-color: var(--red) !important;
+  box-shadow: 0 0 0 3px rgba(165, 14, 34, 0.1) !important;
+}
+.ct-field-err {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--red);
+  margin-top: 4px;
+  font-weight: 600;
+}
+.ct-char-count {
+  float: right;
+  font-size: 0.68rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+.ct-optional {
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 4px;
+}
+.ct-submit-btn {
+  padding: 13px !important;
+  font-size: 0.93rem !important;
+  margin-top: 0.5rem;
+}
+.ct-form__lgpd {
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 1rem;
+}
 
-/* ── RESPONSIVIDADE ─────────────────────── */
+/* ════════════════════
+   RESPONSIVO
+   ════════════════════ */
 @media (max-width: 1100px) {
-  .ct-canais-grid { grid-template-columns: repeat(2, 1fr); }
+  .ct-canais-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media (max-width: 900px) {
-  .ct-info-grid   { grid-template-columns: 1fr; }
-  .ct-main-grid   { grid-template-columns: 1fr; }
-  .ct-form-card   { position: static; }
-  .ct-map-wrap, .ct-map-wrap iframe { min-height: 300px; height: 300px; }
+  .ct-info-grid {
+    grid-template-columns: 1fr;
+  }
+  .ct-main-grid {
+    grid-template-columns: 1fr;
+  }
+  .ct-form-card {
+    position: static;
+  }
+  .ct-map-wrap,
+  .ct-map-wrap iframe {
+    min-height: 300px;
+    height: 300px;
+  }
 }
 @media (max-width: 600px) {
-  .ct-canais-grid { grid-template-columns: 1fr 1fr; }
-  .ct-form__row   { grid-template-columns: 1fr; }
-  .ct-hero        { min-height: 44vh; padding-bottom: 3rem; }
-  .ct-form-card   { padding: 1.25rem; }
+  .ct-canais-grid {
+    grid-template-columns: 1fr;
+  }
+  .ct-canal {
+    padding: 1rem 1.25rem;
+  }
+  .ct-form__row {
+    grid-template-columns: 1fr;
+  }
+  .ct-form-card {
+    padding: 1.25rem;
+  }
+  .ct-slider__btn {
+    display: none;
+  }
 }

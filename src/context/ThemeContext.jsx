@@ -6,7 +6,7 @@ const ThemeContext = createContext()
 export function ThemeProvider({ children }) {
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem('next-theme')
-    return saved ? saved === 'dark' : true
+    return saved ? saved === 'dark' : false // ← era true, agora false
   })
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('next-theme', dark ? 'dark' : 'light')
   }, [dark])
 
-  const toggle = () => setDark(d => !d)
+  const toggle = () => setDark((d) => !d)
 
   return (
     <ThemeContext.Provider value={{ dark, toggle }}>

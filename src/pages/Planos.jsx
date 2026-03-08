@@ -1,122 +1,211 @@
 // src/pages/Planos.jsx
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { SectionHeader, Btn, Divider } from '../components/ui'
+import { useEffect, useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { PLANOS, CANAIS, BRAND } from '../data'
 import '../styles/pages/planos.css'
 
-export default function Planos() {
-  useScrollReveal()
+/* ─── Apenas 5 banners ─────────────────────────────────────────── */
+const BANNERS = [
+  '/images/banner-velocidade.png',
+  '/images/banner-experiencia.png',
+  '/images/banner-watch.png',
+  '/images/next-baners-2.png',
+  '/images/next-baners.png',
+]
+
+/* ─── Slider ───────────────────────────────────────────────────── */
+function BannerSlider() {
+  const [active, setActive] = useState(0)
+  useEffect(() => {
+    const t = setInterval(
+      () => setActive((a) => (a + 1) % BANNERS.length),
+      4500,
+    )
+    return () => clearInterval(t)
+  }, [])
   return (
-    <>
-      <div className="planos-hero">
-        <div className="container">
-          <SectionHeader
-            badge="📡 PLANOS DE INTERNET"
-            title="Fibra óptica para cada necessidade"
-            sub="Todos com instalação grátis, suporte 24h e desconto de R$10 pagando no vencimento."
+    <div className="pl-slider">
+      {BANNERS.map((src, i) => (
+        <div
+          key={i}
+          className={`pl-slider__slide ${i === active ? 'pl-slider__slide--on' : ''}`}
+        >
+          <img src={src} alt={`Banner ${i + 1}`} />
+        </div>
+      ))}
+      <div className="pl-slider__dots">
+        {BANNERS.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            className={`pl-slider__dot ${i === active ? 'pl-slider__dot--on' : ''}`}
           />
+        ))}
+      </div>
+      <button
+        className="pl-slider__btn pl-slider__btn--l"
+        onClick={() =>
+          setActive((a) => (a - 1 + BANNERS.length) % BANNERS.length)
+        }
+      >
+        ‹
+      </button>
+      <button
+        className="pl-slider__btn pl-slider__btn--r"
+        onClick={() => setActive((a) => (a + 1) % BANNERS.length)}
+      >
+        ›
+      </button>
+    </div>
+  )
+}
+
+/* ─── Card de plano com expand no hover ────────────────────────── */
+function PlanCard({ p }) {
+  const hasStreaming = p.streaming.length > 0
+  return (
+    <div
+      className={`pl-card ${p.pop ? 'pl-card--pop' : ''} ${hasStreaming ? 'pl-card--stream' : ''}`}
+    >
+      {p.pop && <div className="pl-card__badge">MAIS POPULAR</div>}
+
+      {/* Ícone de streaming — badge canto superior direito */}
+      {hasStreaming && (
+        <div className="pl-card__stream-icon">
+          <img src="/images/icon-streaming.png" alt="Streaming incluso" />
+        </div>
+      )}
+
+      {/* Cabeçalho sempre visível */}
+      <div className="pl-card__head">
+        <div className="pl-card__nome">{p.nome}</div>
+        <div className="pl-card__vel">
+          {p.vel}
+          <span>MB</span>
+        </div>
+        <div className="pl-card__wifi">{p.wifi}</div>
+        <div className="pl-card__price-wrap">
+          <div className="pl-card__price">
+            <sup>R$</sup>
+            {p.desc.toFixed(2).replace('.', ',')}
+          </div>
+          <div className="pl-card__price-sub">/mês com desconto</div>
+          <div className="pl-card__price-old">
+            De R${p.preco.toFixed(2).replace('.', ',')}
+          </div>
         </div>
       </div>
 
-      <section className="section">
-        <div className="container">
-          <div className="planos__grid">
-            {PLANOS.map((p, i) => <PlanCard key={p.id} p={p} delay={i + 1} />)}
+      {/* Expand no hover */}
+      <div className="pl-card__expand">
+        <ul className="pl-card__items">
+          {p.itens.map((it) => (
+            <li key={it}>
+              <span>✓</span>
+              {it}
+            </li>
+          ))}
+        </ul>
+
+        {hasStreaming && (
+          <img src="/images/icons-planos.png" alt="Streamings" />
+        )}
+
+        <a
+          href={BRAND.wa}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pl-card__btn pl-card__btn--outline"
+        >
+          Assinar agora →
+        </a>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Carrossel infinito de canais (CSS puro, sem JS) ──────────── */
+const ALL_CHANNELS = [...CANAIS.abertos, ...CANAIS.paramount]
+
+function ChannelCarousel() {
+  // Triplicamos para garantir loop visual perfeito em qualquer largura
+  const items = [...ALL_CHANNELS, ...ALL_CHANNELS, ...ALL_CHANNELS]
+  return (
+    <div className="carousel-wrap">
+      <div className="carousel-track">
+        {items.map((c, i) => (
+          <div key={i} className="carousel-item">
+            <img src={c.img} alt={c.n} />
+            <span>{c.n}</span>
           </div>
-          <p className="planos__nota">
-            * Instalação gratuita. Preços válidos para novos clientes. Consulte cobertura na sua região.<br />
-            Reajuste anual pelo IGP-DI (FGV). Sujeito às condições do Contrato de Adesão.
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ─── Página ───────────────────────────────────────────────────── */
+export default function Planos() {
+  useScrollReveal()
+  return (
+    <div className="pl-page">
+      {/* 1 — BANNERS */}
+      <section className="pl-hero">
+        <BannerSlider />
+      </section>
+
+      {/* 2 — CARDS */}
+      <section className="section pl-section-cards">
+        <div className="container">
+          <div className="pl-section-header">
+            <h2>Escolha o seu plano</h2>
+            <p>
+              Instalação gratuita · Suporte 24h · R$10 de desconto pagando no
+              vencimento
+            </p>
+          </div>
+          <div className="pl-cards-grid">
+            {PLANOS.map((p) => (
+              <PlanCard key={p.id} p={p} />
+            ))}
+          </div>
+          <p className="pl-nota">
+            * Preços válidos para novos clientes. Reajuste anual pelo IGP-DI
+            (FGV). Sujeito à viabilidade técnica da sua região.
           </p>
         </div>
       </section>
 
-      {/* Streaming logos */}
-      <section className="section section--alt canais-section">
+      {/* 3 — BANNERS NEXT (sem link) */}
+      <section className="pl-banners-watch">
         <div className="container">
-          <Divider />
-          <SectionHeader
-            badge="📺 TV & STREAMING"
-            title="Canais inclusos nos planos Ultra e Max"
-            sub="Acesso ao Hub Watch com TV aberta e canais pagos, mais Paramount+ completo."
-          />
-
-          {/* Logos parceiros */}
-          <div style={{display:'flex',gap:'1.5rem',justifyContent:'center',flexWrap:'wrap',margin:'2rem 0'}}>
-            <div style={{background:'#000',borderRadius:12,padding:'1rem 2rem',display:'flex',alignItems:'center'}}>
-              <img src="/images/paramount-logo.png" alt="Paramount+" style={{height:36,width:'auto'}} />
+          <div className="pl-banners-grid">
+            <div className="pl-banner-item reveal">
+              <img src="/images/paramount-logo-black.png" alt="Paramount+" />
             </div>
-            <div style={{background:'#000',borderRadius:12,padding:'1rem 2rem',display:'flex',alignItems:'center'}}>
-              <img src="/images/watch-logo.png" alt="Watch BR" style={{height:36,width:'auto'}} />
+            <div className="pl-banner-item reveal">
+              <img src="/images/watch-logo-black.png" alt="WatchBr" />
             </div>
-          </div>
-
-          <div style={{ marginTop: '1rem' }}>
-            {[
-              { cat: 'Canais Abertos — Hub Watch', items: CANAIS.abertos   },
-              { cat: 'Canais Pagos — Watch & Paramount+', items: CANAIS.paramount },
-            ].map(row => (
-              <div key={row.cat} className="canal-row reveal">
-                <div className="canal-row__title">{row.cat}</div>
-                <div className="canal-row__tags">
-                  {row.items.map(c => (
-                    <div key={c.n} className="canal-tag">
-                      {c.img
-                        ? <img src={c.img} alt={c.n} />
-                        : <span>{c.e}</span>
-                      }
-                      <span className="canal-tag__name">{c.n}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
-    </>
-  )
-}
 
-function PlanCard({ p, delay }) {
-  return (
-    <div className={`plan-card reveal delay-${delay} ${p.pop ? 'plan-card--pop' : ''}`}>
-      {p.pop && <div className="plan-card__pop-badge">⭐ MAIS POPULAR</div>}
-      <div className="plan-card__top">
-        <div>
-          <div className="plan-card__nome">{p.nome}</div>
-          <div className="plan-card__vel">{p.vel}</div>
-          <div className="plan-card__mbps">MBPS</div>
-        </div>
-        <div className="plan-card__wifi-badge">
-          <div className="plan-card__wifi-label">Super</div>
-          <div className="plan-card__wifi-val">{p.wifi}</div>
-        </div>
-      </div>
-      <div className="plan-card__price-box">
-        <div className="plan-card__price-old">R$ {p.preco.toFixed(2).replace('.',',')} sem desconto</div>
-        <div className="plan-card__price-new"><sup>R$</sup>{p.desc.toFixed(2).replace('.',',')}</div>
-        <div className="plan-card__price-label">/mês com desconto pontual</div>
-        <div className="plan-card__discount">💚 -R$10 pagando no vencimento</div>
-      </div>
-      <ul className="plan-card__items">
-        {p.itens.map(it => (
-          <li key={it} className="plan-card__item">
-            <span className="plan-card__item-check">✓</span>{it}
-          </li>
-        ))}
-      </ul>
-      {p.streaming.length > 0 && (
-        <div className="plan-card__streaming">
-          <div className="plan-card__streaming-title">🎬 STREAMING INCLUSO</div>
-          <div style={{display:'flex',gap:8,marginTop:6,flexWrap:'wrap'}}>
-            <img src="/images/paramount-logo.png" alt="Paramount+" style={{height:20,filter:'invert(1)',opacity:0.9}} />
-            <img src="/images/watch-logo.png" alt="Watch" style={{height:20,filter:'invert(1)',opacity:0.9}} />
+      {/* 4 — CARROSSEL DE CANAIS */}
+      <section className="section section--alt pl-section-canais">
+        <div className="container">
+          <div className="pl-section-header reveal">
+            <h2>Canais inclusos nos planos Ultra e Max</h2>
+            <p>
+              Acesso completo ao Watch BR e Paramount+ com fibra de 600MB ou
+              800MB.
+            </p>
           </div>
         </div>
-      )}
-      <Btn href={BRAND.wa} variant="primary" full>Assine Agora →</Btn>
+        {/* O carrossel fica fora do container para ocupar 100% da largura */}
+        <div className="reveal">
+          <ChannelCarousel />
+        </div>
+      </section>
     </div>
   )
 }

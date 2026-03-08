@@ -1,0 +1,390 @@
+/* ═══════════════════════════════════════════════════════
+   QUEM SOMOS — CSS exclusivo
+   ═══════════════════════════════════════════════════════ */
+
+.qs-page {
+  padding-top: 68px;
+}
+
+/* ════════════════════
+   SLIDER
+   ════════════════════ */
+.qs-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  max-height: 500px;
+  background: #111;
+}
+.qs-slider__slide {
+  display: none;
+}
+.qs-slider__slide--on {
+  display: block;
+  animation: qsFadeIn 0.55s ease;
+}
+@keyframes qsFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.qs-slider__slide img {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+  display: block;
+}
+.qs-slider__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.88);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #141414;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  transition:
+    background 0.2s,
+    color 0.2s;
+  z-index: 3;
+}
+.qs-slider__btn:hover {
+  background: var(--red);
+  color: #fff;
+}
+.qs-slider__btn--l {
+  left: 18px;
+}
+.qs-slider__btn--r {
+  right: 18px;
+}
+.qs-slider__dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 7px;
+  z-index: 3;
+}
+.qs-slider__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.qs-slider__dot--on {
+  background: var(--red);
+  width: 26px;
+  border-radius: 4px;
+}
+
+/* ════════════════════
+   SEÇÕES BASE
+   ════════════════════ */
+.qs-section {
+  padding: 5rem 0;
+}
+.qs-section--white {
+  background: var(--bg);
+}
+.qs-section--alt {
+  background: var(--bg-2);
+}
+
+/* ════════════════════
+   QUEM SOMOS — TEXTO
+   ════════════════════ */
+
+/* Label pequeno acima do título */
+.qs-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 1.1rem;
+
+  /* Linha decorativa à direita */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.qs-label::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--red);
+  border-radius: 2px;
+}
+
+/* Título principal */
+.qs-title {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 2.25rem;
+}
+.qs-title span {
+  color: var(--red);
+  /* Sublinhado animado */
+  position: relative;
+  display: inline-block;
+}
+.qs-title span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 3px;
+  background: var(--red);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underlineGrow 0.7s 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes underlineGrow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Parágrafos */
+.qs-text {
+  max-width: 720px;
+  margin-bottom: 2.5rem;
+}
+.qs-text p {
+  font-size: 1rem;
+  color: var(--sub);
+  line-height: 1.8;
+  margin-bottom: 1.1rem;
+}
+.qs-text p:last-child {
+  margin-bottom: 0;
+}
+.qs-text strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* Tecnologias em pílulas */
+.qs-tech {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.qs-tech__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  padding: 9px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--sub);
+  transition: all 0.22s;
+}
+.qs-tech__item svg {
+  color: var(--muted);
+}
+.qs-tech__item:hover {
+  border-color: var(--red);
+  color: var(--text);
+  transform: translateY(-2px);
+}
+.qs-tech__item:hover svg {
+  color: var(--red);
+}
+
+/* Destaque: Fibra Óptica */
+.qs-tech__item--highlight {
+  border-color: var(--red);
+  color: var(--red);
+  font-weight: 700;
+}
+.qs-tech__item--highlight svg {
+  color: var(--red);
+}
+
+/* ════════════════════
+   MVV — CARDS
+   ════════════════════ */
+.qs-mvv {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.qs-mvv__card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+/* Acento decorativo no canto */
+.qs-mvv__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 0;
+  background: var(--red);
+  border-radius: 0 0 3px 3px;
+  transition: height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.qs-mvv__card:hover {
+  border-color: rgba(165, 14, 34, 0.3);
+  transform: translateY(-6px);
+  box-shadow:
+    0 18px 48px rgba(165, 14, 34, 0.1),
+    0 4px 16px var(--shadow);
+}
+.qs-mvv__card:hover::before {
+  height: 100%;
+}
+
+/* Ícone */
+.qs-mvv__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(165, 14, 34, 0.08);
+  border: 1.5px solid rgba(165, 14, 34, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--red);
+  margin-bottom: 1.5rem;
+  transition:
+    background 0.25s,
+    border-color 0.25s;
+}
+.qs-mvv__card:hover .qs-mvv__icon {
+  background: rgba(165, 14, 34, 0.15);
+  border-color: rgba(165, 14, 34, 0.35);
+}
+
+/* Linha separadora */
+.qs-mvv__line {
+  width: 32px;
+  height: 2px;
+  background: rgba(165, 14, 34, 0.3);
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  transition: width 0.3s ease;
+}
+.qs-mvv__card:hover .qs-mvv__line {
+  width: 56px;
+  background: var(--red);
+}
+
+.qs-mvv__title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.85rem;
+}
+
+.qs-mvv__desc {
+  font-size: 0.88rem;
+  color: var(--sub);
+  line-height: 1.75;
+  flex: 1;
+}
+
+/* ════════════════════
+   DADOS DA EMPRESA
+   (discreto, rodapé)
+   ════════════════════ */
+.qs-dados {
+  padding: 3rem 0 3.5rem;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.qs-dados__title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+.qs-dados__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem 2rem;
+}
+.qs-dados__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.qs-dados__label {
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.qs-dados__val {
+  font-size: 0.82rem;
+  color: var(--sub);
+  line-height: 1.45;
+}
+
+/* ════════════════════
+   RESPONSIVO
+   ════════════════════ */
+@media (max-width: 900px) {
+  .qs-mvv {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .qs-section {
+    padding: 3.5rem 0;
+  }
+}
+@media (max-width: 600px) {
+  .qs-slider__btn {
+    display: none;
+  }
+  .qs-title {
+    font-size: 2.2rem;
+  }
+  .qs-dados__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

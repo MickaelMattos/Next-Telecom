@@ -1,265 +1,563 @@
-/* ═══════════════════════════════════════════
-   PLANOS PAGE — CSS EXCLUSIVO
-   ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   PLANOS.CSS  —  Página de Planos
+   ═══════════════════════════════════════════════════════ */
 
-.planos-hero {
-  padding: 8rem 0 4rem;
-  background: linear-gradient(160deg, var(--bg-2) 0%, var(--bg) 60%);
-  border-bottom: 1px solid var(--border);
+.pl-page {
+  padding-top: 68px; /* offset da navbar fixa */
+}
+
+/* ════════════════════════════════════
+   SLIDER DE BANNERS
+   ════════════════════════════════════ */
+.pl-hero {
+  background: #000;
+}
+
+.pl-slider {
   position: relative;
+  width: 100%;
   overflow: hidden;
+  max-height: 500px;
+  background: #111;
 }
-.planos-hero::after {
-  content: '';
+.pl-slider__slide {
+  display: none;
+}
+.pl-slider__slide--on {
+  display: block;
+  animation: plFadeIn 0.55s ease;
+}
+@keyframes plFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.pl-slider__slide img {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Botões ‹ › */
+.pl-slider__btn {
   position: absolute;
-  top: -100px; right: -150px;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(165,14,34,0.12) 0%, transparent 65%);
-  pointer-events: none;
-}
-
-.planos__grid {
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.88);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #141414;
   display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  padding: 1rem 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  transition:
+    background 0.2s,
+    color 0.2s;
+  z-index: 3;
+}
+.pl-slider__btn:hover {
+  background: var(--red);
+  color: #fff;
+}
+.pl-slider__btn--l {
+  left: 18px;
+}
+.pl-slider__btn--r {
+  right: 18px;
 }
 
-/* Card plano full */
-.plan-card {
+/* Dots */
+.pl-slider__dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 7px;
+  z-index: 3;
+}
+.pl-slider__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.pl-slider__dot--on {
+  background: var(--red);
+  width: 26px;
+  border-radius: 4px;
+}
+
+/* ════════════════════════════════════
+   HEADER DE SEÇÃO
+   ════════════════════════════════════ */
+.pl-section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.pl-section-header h2 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-bottom: 0.6rem;
+}
+.pl-section-header p {
+  font-size: 0.97rem;
+  color: var(--sub);
+  line-height: 1.65;
+}
+
+/* ════════════════════════════════════
+   GRID DE CARDS
+   ════════════════════════════════════ */
+.pl-section-cards {
+  background: var(--bg);
+}
+
+.pl-cards-grid {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* ── Card base ── */
+.pl-card {
   position: relative;
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 18px;
-  padding: 2.25rem 1.75rem;
-  width: 220px;
+  width: 210px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  transition: all 0.28s ease;
-  cursor: default;
+  overflow: hidden;
+  box-shadow: 0 2px 12px var(--shadow);
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.32s ease,
+    border-color 0.22s ease;
 }
-.plan-card:hover {
-  border-color: var(--border-h);
-  background: var(--card-h);
+.pl-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 24px 60px var(--shadow), 0 0 30px rgba(165,14,34,0.12);
+  border-color: var(--red);
+  box-shadow:
+    0 20px 50px rgba(165, 14, 34, 0.14),
+    0 4px 16px var(--shadow);
+  z-index: 5;
 }
-.plan-card--pop {
-  border: 2px solid var(--red);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 35px rgba(165,14,34,0.2);
-}
-.plan-card--pop:hover { transform: translateY(-14px); }
 
-.plan-card__pop-badge {
+/* Card popular */
+.pl-card--pop {
+  border-color: var(--red);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 32px rgba(165, 14, 34, 0.18);
+}
+.pl-card--pop:hover {
+  transform: translateY(-14px);
+}
+
+/* Card com streaming */
+.pl-card--stream {
+  border-color: rgba(165, 14, 34, 0.35);
+}
+
+/* Badge MAIS POPULAR */
+.pl-card__badge {
   position: absolute;
-  top: -14px; left: 50%;
+  top: -1px;
+  left: 50%;
   transform: translateX(-50%);
   background: var(--red);
   color: #fff;
-  font-size: 0.62rem; font-weight: 900;
-  padding: 4px 14px; border-radius: 100px;
+  font-size: 0.57rem;
+  font-weight: 900;
+  padding: 5px 16px;
+  border-radius: 0 0 10px 10px;
   letter-spacing: 0.12em;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(165,14,34,0.4);
-}
-
-/* Top do card */
-.plan-card__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1.25rem;
-}
-.plan-card__nome {
-  font-size: 0.68rem;
-  font-weight: 900;
-  color: var(--red);
-  letter-spacing: 0.2em;
+  z-index: 2;
   text-transform: uppercase;
-  margin-bottom: 4px;
-}
-.plan-card__vel {
-  font-size: 4rem;
-  font-weight: 900;
-  color: var(--red);
-  line-height: 1;
-}
-.plan-card__mbps {
-  font-size: 0.7rem;
-  color: var(--muted);
-  letter-spacing: 0.06em;
-}
-.plan-card__wifi-badge {
-  background: rgba(165,14,34,0.1);
-  border: 1px solid rgba(165,14,34,0.2);
-  border-radius: var(--r-sm);
-  padding: 6px 10px;
-  text-align: center;
-  min-width: 72px;
-  flex-shrink: 0;
-}
-.plan-card__wifi-label {
-  font-size: 0.58rem;
-  color: var(--muted);
-  line-height: 1;
-}
-.plan-card__wifi-val {
-  font-size: 0.72rem;
-  font-weight: 900;
-  color: var(--red);
-  line-height: 1;
-  margin-top: 2px;
 }
 
-/* Preço */
-.plan-card__price-box {
-  border-top: 1px solid var(--border);
+/* ── Badge ícone streaming — canto superior direito ── */
+.pl-card__stream-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0.35;
+  transition: opacity 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.pl-card:hover .pl-card__stream-icon {
+  opacity: 0.55;
+}
+.pl-card__stream-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Cabeçalho do card ── */
+.pl-card__head {
+  padding: 1.75rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   border-bottom: 1px solid var(--border);
-  padding: 1rem 0;
-  margin-bottom: 1.25rem;
-  text-align: center;
+  transition: border-color 0.2s;
 }
-.plan-card__price-old {
-  font-size: 0.72rem;
+.pl-card:hover .pl-card__head {
+  border-color: rgba(165, 14, 34, 0.2);
+}
+
+/* padding extra quando não tem badge de popular */
+.pl-card--stream .pl-card__head {
+  padding-top: 1rem;
+}
+
+.pl-card__nome {
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.pl-card__vel {
+  font-size: 3.8rem;
+  font-weight: 900;
+  color: var(--red);
+  line-height: 1;
+}
+.pl-card__vel span {
+  font-size: 1.05rem;
+  font-weight: 700;
+  vertical-align: bottom;
+  margin-left: 2px;
+}
+.pl-card__wifi {
+  font-size: 0.66rem;
   color: var(--muted);
-  text-decoration: line-through;
-  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.4rem;
 }
-.plan-card__price-new {
-  font-size: 2.5rem;
+.pl-card__price-wrap {
+  text-align: center;
+  margin-top: 0.2rem;
+}
+.pl-card__price {
+  font-size: 2.3rem;
   font-weight: 900;
   color: var(--text);
   line-height: 1;
 }
-.plan-card__price-new sup {
-  font-size: 1rem;
-  vertical-align: super;
+.pl-card__price sup {
+  font-size: 0.95rem;
   font-weight: 700;
 }
-.plan-card__price-label {
-  font-size: 0.68rem;
+.pl-card__price-sub {
+  font-size: 0.63rem;
   color: var(--muted);
+  margin-top: 3px;
+}
+.pl-card__price-old {
+  font-size: 0.67rem;
+  color: var(--muted);
+  text-decoration: line-through;
   margin-top: 2px;
 }
-.plan-card__discount {
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #27ae60;
-  margin-top: 5px;
+
+/* ── Expand (aparece no hover) ── */
+.pl-card__expand {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1.25rem;
+  transition:
+    max-height 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    padding 0.3s ease;
+}
+.pl-card:hover .pl-card__expand {
+  max-height: 440px;
+  padding: 1.25rem 1.25rem 1.5rem;
 }
 
-/* Itens */
-.plan-card__items {
-  flex: 1;
-  margin-bottom: 1.25rem;
+/* Lista de itens do plano */
+.pl-card__items {
   display: flex;
   flex-direction: column;
   gap: 7px;
+  margin-bottom: 1rem;
 }
-.plan-card__item {
+.pl-card__items li {
   display: flex;
-  gap: 7px;
   align-items: flex-start;
-  font-size: 0.78rem;
+  gap: 7px;
+  font-size: 0.79rem;
   color: var(--sub);
   line-height: 1.4;
 }
-.plan-card__item-check {
+.pl-card__items li span {
   color: var(--red);
   font-weight: 700;
   flex-shrink: 0;
   margin-top: 1px;
 }
 
-/* Streaming badge */
-.plan-card__streaming {
-  background: rgba(165,14,34,0.08);
-  border: 1px solid rgba(165,14,34,0.2);
-  border-radius: var(--r-sm);
-  padding: 10px;
-  margin-bottom: 1.25rem;
-  animation: borderPulse 2.5s ease infinite;
+/* Bloco de streaming (dentro do expand, nos planos Ultra e Max) */
+.pl-card__streaming {
+  background: #0d0d0d;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
 }
-.plan-card__streaming-title {
-  font-size: 0.62rem;
-  font-weight: 900;
-  color: var(--red);
-  letter-spacing: 0.1em;
-  margin-bottom: 5px;
+.pl-card__streaming-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
 }
-.plan-card__streaming-item {
-  font-size: 0.75rem;
-  color: var(--sub);
+/* Os logos têm fundo preto JPEG — no container escuro aparecem normalmente */
+.pl-card__streaming-logos {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.pl-card__streaming-logos img {
+  height: 26px;
+  width: auto;
+  object-fit: contain;
+  /* sem mix-blend-mode aqui — fundo preto do logo
+     se funde ao container escuro e o conteúdo aparece */
+  mix-blend-mode: screen;
 }
 
-/* Nota */
-.planos__nota {
+/* Botão de ação */
+.pl-card__btn {
+  display: block;
+  text-align: center;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: all 0.2s;
+}
+.pl-card__btn--red {
+  background: var(--red);
+  color: #fff;
+  border: 2px solid var(--red);
+}
+.pl-card__btn--red:hover {
+  background: var(--red-dk);
+  box-shadow: 0 4px 16px rgba(165, 14, 34, 0.35);
+}
+.pl-card__btn--outline {
+  background: transparent;
+  color: var(--red);
+  border: 2px solid var(--red);
+}
+.pl-card__btn--outline:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Nota de rodapé */
+.pl-nota {
   text-align: center;
   margin-top: 2.5rem;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
-/* Canais grid */
-.canais-section { background: var(--bg-2); }
-.canal-row {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1rem;
-  transition: border-color var(--t-mid);
+/* ════════════════════════════════════
+   BANNERS NEXT (sem link)
+   ════════════════════════════════════ */
+.pl-banners-watch {
+  padding: 3.5rem 0;
+  background: var(--bg-2);
 }
-.canal-row:hover { border-color: var(--border-h); }
-.canal-row__title {
-  font-size: 0.72rem;
-  font-weight: 900;
-  color: var(--red);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
+.pl-banners-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
 }
-.canal-row__tags {
+.pl-banner-item {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px var(--shadow);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s;
+}
+.pl-banner-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+}
+.pl-banner-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ════════════════════════════════════
+   CARROSSEL INFINITO DE CANAIS
+   ════════════════════════════════════ */
+.pl-section-canais {
+  background: var(--bg-2);
+  overflow: hidden;
+}
+
+/* Wrapper com máscara de fade nas bordas */
+.carousel-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 1.5rem 0;
+
+  /* Fade esq/dir para dar profundidade */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+/* Track — flex em linha, anima para a esquerda infinitamente */
+.carousel-track {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 2rem;
+  width: max-content;
+  animation: carouselScroll 28s linear infinite;
 }
-.canal-tag {
+.carousel-wrap:hover .carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes carouselScroll {
+  from {
+    transform: translateX(0);
+  }
+  /* Move exatamente 1/3 do total (um conjunto de canais),
+     dando loop perfeito já que triplicamos os itens */
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
+/* Item individual */
+.carousel-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  background: rgba(165,14,34,0.08);
-  border: 1px solid rgba(165,14,34,0.18);
-  border-radius: var(--r-sm);
-  padding: 6px 12px;
-  transition: all var(--t-fast);
+  gap: 10px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 28px;
+  min-width: 140px;
+  flex-shrink: 0;
+  cursor: default;
+  transition:
+    border-color 0.22s,
+    transform 0.22s,
+    box-shadow 0.22s;
 }
-.canal-tag:hover {
-  background: rgba(165,14,34,0.15);
-  transform: translateY(-2px);
+.carousel-item:hover {
+  border-color: var(--red);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(165, 14, 34, 0.12);
 }
-.canal-tag img {
-  height: 30px;
+.carousel-item img {
+  height: 52px;
   width: auto;
-  max-width: 70px;
+  max-width: 120px;
   object-fit: contain;
 }
-.canal-tag__name {
-  font-size: 0.78rem;
+.carousel-item span {
+  font-size: 0.72rem;
   font-weight: 700;
-  color: var(--text);
+  color: var(--sub);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.carousel-item:hover span {
+  color: var(--red);
 }
 
-/* Responsividade Planos */
-@media (max-width: 768px) {
-  .planos__grid { gap: 1rem; }
-  .plan-card { width: calc(50% - 0.5rem); padding: 1.5rem 1.1rem; }
-  .plan-card__vel { font-size: 3rem; }
+/* ════════════════════════════════════
+   RESPONSIVO
+   ════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .pl-card {
+    width: 190px;
+  }
+}
+@media (max-width: 900px) {
+  .pl-banners-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 700px) {
+  .pl-card {
+    width: calc(50% - 0.5rem);
+  }
+  .pl-slider__btn {
+    display: none;
+  }
+  .carousel-item {
+    min-width: 120px;
+    padding: 16px 20px;
+  }
+  .carousel-item img {
+    height: 42px;
+  }
 }
 @media (max-width: 480px) {
-  .plan-card { width: 100%; max-width: 320px; }
+  .pl-card {
+    width: 100%;
+    max-width: 310px;
+  }
+  .carousel-item {
+    min-width: 104px;
+    padding: 14px 16px;
+  }
 }
