@@ -6,7 +6,6 @@ export const BRAND = {
   ig: 'https://instagram.com/next_provedor',
   fb: 'https://facebook.com/nextprovedor',
   tel: '(21) 2636-1252',
-  tel2: '(21) 2635-9113',
   whats: '(21) 99658-4222',
   cnpj: '29.203.781/0001-01',
   endereco:
