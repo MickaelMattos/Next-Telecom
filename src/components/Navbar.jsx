@@ -1,39 +1,55 @@
 // src/components/Navbar.jsx
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useTheme } from '../context/ThemeContext'
 import { Logo } from './ui'
 import { BRAND } from '../data'
 
 const NAV_ITEMS = [
-  { label: 'Home',         path: '/'           },
-  { label: 'Planos',       path: '/planos'      },
-  { label: 'Câmeras',      path: '/cameras'     },
-  { label: 'Quem Somos',   path: '/quem-somos'  },
-  { label: 'FAQ',          path: '/faq'         },
-  { label: 'Contato',      path: '/contato'     },
+  { label: 'Home', path: '/' },
+  { label: 'Planos', path: '/planos' },
+  { label: 'Câmeras', path: '/cameras' },
+  { label: 'Quem Somos', path: '/quem-somos' },
+  { label: 'FAQ', path: '/faq' },
+  { label: 'Contato', path: '/contato' },
 ]
 
+const IcUser = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width="15"
+    height="15"
+  >
+    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
+)
+
 export default function Navbar() {
-  const { dark, toggle } = useTheme()
-  const { pathname }      = useLocation()
+  const { pathname } = useLocation()
   const [scrolled, setScrolled] = useState(false)
-  const [menu, setMenu]         = useState(false)
+  const [menu, setMenu] = useState(false)
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 42)
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
+    const h = () => setScrolled(window.scrollY > 42)
+    window.addEventListener('scroll', h, { passive: true })
+    return () => window.removeEventListener('scroll', h)
   }, [])
 
-  // Fecha menu ao navegar
-  useEffect(() => { setMenu(false); window.scrollTo(0, 0) }, [pathname])
+  useEffect(() => {
+    setMenu(false)
+    window.scrollTo(0, 0)
+  }, [pathname])
 
   return (
     <>
       <nav className={`navbar ${scrolled || menu ? 'navbar--scrolled' : ''}`}>
         <div className="navbar__inner">
-          {/* Logo */}
+          {/* Logo — ancorado à esquerda */}
           <Link to="/" className="navbar__logo">
             <Logo height={38} />
           </Link>
@@ -53,20 +69,47 @@ export default function Navbar() {
 
           {/* Direita */}
           <div className="navbar__right">
-            <button className="theme-toggle" onClick={toggle} title="Alternar tema">
-              {dark ? '☀️ Claro' : '🌙 Escuro'}
-            </button>
-
-            <a href={BRAND.portal} target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--sm">
-              👤 Área do Cliente
+            <a
+              href={BRAND.portal}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="navbar__portal-btn"
+            >
+              <IcUser />
+              <span>Área do Cliente</span>
             </a>
 
             <button
               className="navbar__burger"
-              onClick={() => setMenu(m => !m)}
+              onClick={() => setMenu((m) => !m)}
               aria-label="Menu"
             >
-              {menu ? '✕' : '☰'}
+              {menu ? (
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  width="20"
+                  height="20"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              ) : (
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  width="20"
+                  height="20"
+                >
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+              )}
             </button>
           </div>
         </div>
@@ -84,8 +127,14 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
-          <a href={BRAND.portal} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ marginTop: '0.5rem' }}>
-            👤 Área do Cliente
+          <a
+            href={BRAND.portal}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="navbar__portal-btn navbar__portal-btn--mobile"
+          >
+            <IcUser />
+            <span>Área do Cliente</span>
           </a>
         </div>
       )}
